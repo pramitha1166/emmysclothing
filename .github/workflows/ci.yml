@@ -50,3 +50,9 @@ jobs:
       - run: flutter pub get
       - run: flutter clean
       - run: flutter build apk
+      - name: Push to release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "build/app/outputs/apk/debug/*"
+          tag: v1.0.0
+          
