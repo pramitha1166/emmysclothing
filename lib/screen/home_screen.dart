@@ -153,7 +153,7 @@ class _HomeScreenState extends State<HomeScreen> {
           const SizedBox(
             height: 20,
           ),
-          Container(
+          SizedBox(
             width: double.maxFinite,
             height: 80,
             child: ListView.builder(
@@ -194,7 +194,7 @@ class _HomeScreenState extends State<HomeScreen> {
           const SizedBox(
             height: 20,
           ),
-          Container(
+          SizedBox(
               width: double.maxFinite,
               height: 250,
               // ignore: prefer_is_empty

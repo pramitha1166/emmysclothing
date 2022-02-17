@@ -19,8 +19,8 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
     return Container(
       height: 250,
       width: 150,
-      margin: EdgeInsets.only(top: 20, left: 20, bottom: 20, right: 20),
-      padding: EdgeInsets.all(10),
+      margin: const EdgeInsets.only(top: 20, left: 20, bottom: 20, right: 20),
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(20),
