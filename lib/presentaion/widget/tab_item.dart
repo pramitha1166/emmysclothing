@@ -2,6 +2,7 @@ import 'package:ecommerce/model/tab_item_model.dart';
 import 'package:ecommerce/presentaion/misc/colors.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class TabItem extends StatefulWidget {
   TabItemModel tabItemModel;
 

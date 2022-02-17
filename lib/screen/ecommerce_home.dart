@@ -26,7 +26,7 @@ class _EcommerceHomeState extends State<EcommerceHome> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: switchScreen(),
-        drawer: NavigationDrawer(),
+        drawer: const NavigationDrawer(),
         bottomNavigationBar: CurvedNavigationBar(
           buttonBackgroundColor: AppColors.main,
           backgroundColor: AppColors.ecommerceBackground,

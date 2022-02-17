@@ -72,7 +72,7 @@ class _LoginScreenState extends State<LoginScreen> {
               Row(
                 children: [
                   Expanded(child: Container()),
-                  Container(
+                  SizedBox(
                     width: 100,
                     height: 40,
                     child: ElevatedButton(
