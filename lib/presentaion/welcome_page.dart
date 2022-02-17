@@ -53,7 +53,7 @@ class _WelcomePageState extends State<WelcomePage> {
                             color: Colors.black26,
                             fontWeight: FontWeight.w400),
                       ),
-                      AppButton(
+                      const AppButton(
                           image: "img/button-one.png",
                           color: AppColors.mainColor,
                           width: 100)

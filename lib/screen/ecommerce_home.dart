@@ -1,16 +1,10 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:ecommerce/model/product_item_model.dart';
-import 'package:ecommerce/model/tab_item_model.dart';
 import 'package:ecommerce/presentaion/misc/colors.dart';
-import 'package:ecommerce/presentaion/widget/app_text.dart';
 import 'package:ecommerce/presentaion/widget/navigation_drawer.dart';
-import 'package:ecommerce/presentaion/widget/product_item.dart';
-import 'package:ecommerce/presentaion/widget/tab_item.dart';
 import 'package:ecommerce/screen/cart_screen.dart';
 import 'package:ecommerce/screen/home_screen.dart';
 import 'package:ecommerce/screen/search_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 class EcommerceHome extends StatefulWidget {
   const EcommerceHome({Key? key}) : super(key: key);

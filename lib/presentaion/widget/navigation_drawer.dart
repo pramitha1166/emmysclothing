@@ -45,7 +45,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
       ),
       title: Text(
         text,
-        style: TextStyle(fontFamily: 'OpenSans'),
+        style: const TextStyle(fontFamily: 'OpenSans'),
       ),
       hoverColor: hoverColor,
       onTap: onClicked,
