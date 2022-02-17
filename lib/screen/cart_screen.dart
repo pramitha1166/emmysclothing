@@ -12,7 +12,7 @@ class _CartScreenState extends State<CartScreen> {
   Widget build(BuildContext context) {
     return Container(
       child: Center(
-        child: Text("Cart Screen new"),
+        child: Text("Cart Screen new 1"),
       ),
     );
   }
