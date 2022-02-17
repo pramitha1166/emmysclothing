@@ -53,5 +53,5 @@ jobs:
       - name: Push to release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "../../build/app/outputs/apk/debug/*"
+          artifacts: "build/app/outputs/apk/debug/*.apk"
           tag: v1.0.${{ github.run_number }}
