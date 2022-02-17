@@ -18,7 +18,7 @@ class _HomePageState extends State<HomePage> {
           padding: const EdgeInsets.only(top: 70, left: 20, right: 20),
           child: Row(
             children: [
-              Icon(
+              const Icon(
                 Icons.menu,
                 size: 20,
                 color: Colors.black38,

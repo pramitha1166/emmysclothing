@@ -14,7 +14,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  String _currentCategory = "sneakers";
+  //final String _currentCategory = "sneakers";
 
   List<TabItemModel> tabItems = [
     TabItemModel(img: "img/items/sneaker.png", title: "Sneakers", active: true),
@@ -22,6 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
     TabItemModel(img: "img/items/jacket.png", title: "Jackets", active: false),
   ];
 
+  // ignore: non_constant_identifier_names
   List<Map<String, dynamic>> get_products = [
     {
       "name": "NIKE AIR MAX 2020",
@@ -90,48 +91,46 @@ class _HomeScreenState extends State<HomeScreen> {
       child: ListView(
         scrollDirection: Axis.vertical,
         children: [
-          Container(
-            child: Row(
-              children: [
-                Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: const [
-                      BoxShadow(
-                          color: AppColors.shadowColor,
-                          blurRadius: 6,
-                          spreadRadius: 1,
-                          offset: Offset(0, 0)),
-                    ],
-                  ),
-                  child: IconButton(
-                    icon: const Icon(Icons.menu),
-                    onPressed: () {
-                      Scaffold.of(context).openDrawer();
-                    },
-                  ),
+          Row(
+            children: [
+              Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: const [
+                    BoxShadow(
+                        color: AppColors.shadowColor,
+                        blurRadius: 6,
+                        spreadRadius: 1,
+                        offset: Offset(0, 0)),
+                  ],
                 ),
-                Expanded(child: Container()),
-                Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: const [
-                      BoxShadow(
-                          color: AppColors.shadowColor,
-                          blurRadius: 10,
-                          offset: Offset(0, 1)),
-                    ],
-                    image: const DecorationImage(
-                        image: AssetImage("img/user.jpeg"), fit: BoxFit.cover),
-                  ),
-                )
-              ],
-            ),
+                child: IconButton(
+                  icon: const Icon(Icons.menu),
+                  onPressed: () {
+                    Scaffold.of(context).openDrawer();
+                  },
+                ),
+              ),
+              Expanded(child: Container()),
+              Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: const [
+                    BoxShadow(
+                        color: AppColors.shadowColor,
+                        blurRadius: 10,
+                        offset: Offset(0, 1)),
+                  ],
+                  image: const DecorationImage(
+                      image: AssetImage("img/user.jpeg"), fit: BoxFit.cover),
+                ),
+              )
+            ],
           ),
           const SizedBox(
             height: 40,
@@ -198,6 +197,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Container(
               width: double.maxFinite,
               height: 250,
+              // ignore: prefer_is_empty
               child: prducts.length == 0
                   ? const Text("Loading")
                   : ListView.builder(

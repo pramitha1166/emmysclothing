@@ -3,6 +3,7 @@ import 'package:ecommerce/presentaion/misc/colors.dart';
 import 'package:ecommerce/presentaion/widget/app_text.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class ProductItemWidget extends StatefulWidget {
   ProductItem productItem;
 
@@ -73,7 +74,7 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
                         text: "\$",
                         color: AppColors.main,
                         fontWeight: FontWeight.w400),
-                    SizedBox(
+                    const SizedBox(
                       width: 2,
                     ),
                     AppText(

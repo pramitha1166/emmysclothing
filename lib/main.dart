@@ -1,6 +1,5 @@
 import 'package:ecommerce/presentaion/misc/colors.dart';
 import 'package:ecommerce/screen/authentication_wrapper.dart';
-import 'package:ecommerce/screen/ecommerce_home.dart';
 import 'package:ecommerce/service/authentication_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
