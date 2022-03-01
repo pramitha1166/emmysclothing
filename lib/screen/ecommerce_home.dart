@@ -4,7 +4,9 @@ import 'package:ecommerce/presentaion/widget/navigation_drawer.dart';
 import 'package:ecommerce/screen/cart_screen.dart';
 import 'package:ecommerce/screen/home_screen.dart';
 import 'package:ecommerce/screen/search_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class EcommerceHome extends StatefulWidget {
   const EcommerceHome({Key? key}) : super(key: key);
@@ -18,6 +20,8 @@ class _EcommerceHomeState extends State<EcommerceHome> {
 
   @override
   Widget build(BuildContext context) {
+    var user = Provider.of<User>(context);
+
     return Scaffold(
         body: switchScreen(),
         drawer: const NavigationDrawer(),

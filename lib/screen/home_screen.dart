@@ -1,10 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerce/model/product_item_model.dart';
 import 'package:ecommerce/model/tab_item_model.dart';
 import 'package:ecommerce/presentaion/misc/colors.dart';
 import 'package:ecommerce/presentaion/widget/app_text.dart';
 import 'package:ecommerce/presentaion/widget/product_item.dart';
 import 'package:ecommerce/presentaion/widget/tab_item.dart';
+import 'package:ecommerce/service/product_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:simple_animations/simple_animations.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -13,7 +18,8 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen>
+    with SingleTickerProviderStateMixin {
   //final String _currentCategory = "sneakers";
 
   List<TabItemModel> tabItems = [
@@ -54,6 +60,8 @@ class _HomeScreenState extends State<HomeScreen> {
     },
   ];
 
+  Stream<QuerySnapshot> product_stream = ProductService().sneakers_products;
+
   List<ProductItem> mapData(filterRequest) {
     return get_products
         .map((Map rowData) {
@@ -71,20 +79,46 @@ class _HomeScreenState extends State<HomeScreen> {
 
   List<ProductItem> prducts = [];
 
+  AnimationController? _colorAnimationController;
+  Animation? _colorAnimation;
+
   @override
   void initState() {
     setState(() {
       prducts = mapData("sneakers");
     });
     super.initState();
+
+    _colorAnimationController = AnimationController(
+        duration: const Duration(milliseconds: 500), vsync: this);
+
+    _colorAnimation = ColorTween(begin: Colors.grey, end: AppColors.main)
+        .animate(_colorAnimationController!);
+
+    _colorAnimationController?.addListener(() {
+      print(_colorAnimationController!.value);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return homeScreen();
+    final user = context.read<User>();
+
+    return PlayAnimation<double>(
+      child: homeScreen(user: user),
+      builder: (context, child, value) {
+        return Transform.scale(
+          scale: value,
+          child: child,
+        );
+      },
+      tween: Tween(begin: 0, end: 1),
+      curve: Curves.bounceInOut,
+      duration: const Duration(milliseconds: 1000),
+    );
   }
 
-  SafeArea homeScreen() {
+  SafeArea homeScreen({required User user}) {
     return SafeArea(
         child: Container(
       margin: const EdgeInsets.all(20),
@@ -96,6 +130,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Container(
                 width: 40,
                 height: 40,
+                margin: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(10),
@@ -118,6 +153,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Container(
                 width: 40,
                 height: 40,
+                margin: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   boxShadow: const [
@@ -126,8 +162,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         blurRadius: 10,
                         offset: Offset(0, 1)),
                   ],
-                  image: const DecorationImage(
-                      image: AssetImage("img/user.jpeg"), fit: BoxFit.cover),
+                  image: DecorationImage(
+                      image: NetworkImage(user.photoURL!), fit: BoxFit.cover),
                 ),
               )
             ],
@@ -140,12 +176,20 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               AppText(
                   size: 40,
-                  text: "Our",
-                  color: Colors.black87,
+                  text: "Hello",
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold),
+              AppText(
+                  size: 30,
+                  text: user.displayName!,
+                  color: Colors.black45,
                   fontWeight: FontWeight.normal),
+              const SizedBox(
+                height: 20,
+              ),
               AppText(
                   size: 40,
-                  text: "Products",
+                  text: "Our Products",
                   color: Colors.black87,
                   fontWeight: FontWeight.bold)
             ],
@@ -160,34 +204,44 @@ class _HomeScreenState extends State<HomeScreen> {
                 scrollDirection: Axis.horizontal,
                 itemCount: tabItems.length,
                 itemBuilder: (_, index) {
-                  return InkWell(
-                    onTap: () {
-                      setState(() {
-                        if (tabItems[index].active == true) {
-                          tabItems[index].active == true;
-                        } else {
-                          for (var element in tabItems) {
-                            element.active = false;
-                          }
-                          tabItems[index].active = true;
-
-                          switch (index) {
-                            case 1:
-                              prducts = mapData("watch");
-                              break;
-                            case 2:
-                              prducts = mapData("jacket");
-                              break;
-                            default:
-                              prducts = mapData("sneakers");
-                              break;
-                          }
-                        }
-                      });
+                  return AnimatedBuilder(
+                    animation: _colorAnimationController!,
+                    builder: (BuildContext context, _) {
+                      return TabItem(
+                        tabItemModel: tabItems[index],
+                        onTap: () {
+                          setState(() {
+                            if (tabItems[index].active == true) {
+                              tabItems[index].active == true;
+                              _colorAnimationController!.forward();
+                            } else {
+                              for (var element in tabItems) {
+                                element.active = false;
+                              }
+                              tabItems[index].active = true;
+                              switch (index) {
+                                case 1:
+                                  //prducts = mapData("watch");
+                                  product_stream =
+                                      ProductService().watches_products;
+                                  break;
+                                case 2:
+                                  product_stream =
+                                      ProductService().jacket_products;
+                                  break;
+                                default:
+                                  product_stream =
+                                      ProductService().sneakers_products;
+                                  break;
+                              }
+                            }
+                          });
+                        },
+                        color: tabItems[index].active
+                            ? AppColors.main
+                            : Colors.grey,
+                      );
                     },
-                    child: TabItem(
-                      tabItemModel: tabItems[index],
-                    ),
                   );
                 }),
           ),
@@ -198,15 +252,54 @@ class _HomeScreenState extends State<HomeScreen> {
               width: double.maxFinite,
               height: 250,
               // ignore: prefer_is_empty
-              child: prducts.length == 0
-                  ? const Text("Loading")
-                  : ListView.builder(
-                      itemCount: prducts.length,
+              child: StreamBuilder<QuerySnapshot>(
+                  stream: product_stream,
+                  builder: (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> snapshot) {
+                    //List<DocumentSnapshot>? products = snapshot.data!.docs;
+
+                    if (snapshot.hasError) {
+                      return const Text("Error");
+                    }
+
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return ListView.builder(
+                        itemCount: 1,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) => ProductItemWidget(
+                            productItem: ProductItem(
+                                name: "",
+                                img: "",
+                                price: 100,
+                                category: "",
+                                status: ""),
+                            isLoading: true),
+                      );
+                    }
+
+                    if (snapshot.data!.docs.isEmpty) {
+                      return const Center(child: Text("No item found"));
+                    }
+
+                    return ListView(
                       scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        return ProductItemWidget(productItem: prducts[index]);
-                      },
-                    ))
+                      children: snapshot.data!.docs
+                          .map((DocumentSnapshot documentSnapshot) {
+                        Map<String, dynamic> data =
+                            documentSnapshot.data()! as Map<String, dynamic>;
+                        ProductItem productItem = ProductItem(
+                            name: data["name"],
+                            img: data["img"],
+                            price: data["price"].toDouble(),
+                            category: data["category"],
+                            status: data["status"] ?? "new item");
+                        return ProductItemWidget(
+                          productItem: productItem,
+                          isLoading: false,
+                        );
+                      }).toList(),
+                    );
+                  }))
         ],
       ),
     ));
