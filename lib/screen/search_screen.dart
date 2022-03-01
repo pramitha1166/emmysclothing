@@ -1,4 +1,6 @@
+import 'package:ecommerce/presentaion/widget/product_search_delegate.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);
@@ -10,6 +12,14 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Center(child: Text("Search"));
+    return Column(
+      children: [
+        TextField(
+          onTap: () {
+            showSearch(context: context, delegate: ProductSearchDelegate());
+          },
+        )
+      ],
+    );
   }
 }

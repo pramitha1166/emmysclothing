@@ -6,8 +6,11 @@ import 'package:flutter/material.dart';
 // ignore: must_be_immutable
 class ProductItemWidget extends StatefulWidget {
   ProductItem productItem;
+  bool isLoading;
 
-  ProductItemWidget({Key? key, required this.productItem}) : super(key: key);
+  ProductItemWidget(
+      {Key? key, required this.productItem, required this.isLoading})
+      : super(key: key);
 
   @override
   _ProductItemWidgetState createState() => _ProductItemWidgetState();
@@ -16,6 +19,30 @@ class ProductItemWidget extends StatefulWidget {
 class _ProductItemWidgetState extends State<ProductItemWidget> {
   @override
   Widget build(BuildContext context) {
+    return widget.isLoading ? loadingProductWidget() : loadedProductsItem();
+  }
+
+  Container loadingProductWidget() {
+    return Container(
+      height: 250,
+      width: 150,
+      margin: const EdgeInsets.only(top: 20, left: 20, bottom: 20, right: 20),
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        boxShadow: const [
+          BoxShadow(
+              color: Color.fromARGB(255, 226, 226, 233),
+              blurRadius: 10,
+              offset: Offset(0, 0),
+              blurStyle: BlurStyle.outer),
+        ],
+        color: Color.fromARGB(255, 235, 233, 233),
+        borderRadius: BorderRadius.circular(20),
+      ),
+    );
+  }
+
+  Container loadedProductsItem() {
     return Container(
       height: 250,
       width: 150,
@@ -40,7 +67,7 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
               color: Colors.grey.withOpacity(0.1),
               borderRadius: BorderRadius.circular(200),
               image: DecorationImage(
-                  image: AssetImage(widget.productItem.img),
+                  image: NetworkImage(widget.productItem.img),
                   fit: BoxFit.contain),
             ),
           )),
